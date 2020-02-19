@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; Charset=UTF-8">
+        <meta charset=UTF-8">
+        <title></title>
+    </head>
+    <body>
+        <h1></h1>
+        <h2></h2>
+
+        <h3>Latest posts</h3>
+        <div id="latest-posts"></div>
+        <script type="application/javascript" src="/js/jquery-3.4.1.min.js"></script>
+        <script type="application/javascript">
+        $(function () {
+            var backendUri = "https://in2it-wp-api.azure-api.net/api"
+            $.getJSON(backendUri, function (data) {
+                $("title").html(data.name);
+                $("h1").html(data.name);
+                $("h2").html(data.description);
+            });
+            $.getJSON(backendUri + "/wp/v2/posts", function (posts) {
+                var postElement = $("#latest-posts");
+                var postList = $("<ul/>");
+                $.each(posts, function (i) {
+                    var postItem = $("<li/>");
+                    var postBold = $("<b/>").appendTo(postItem);
+                    var postText = $("<a/>")
+                      .text(posts[i].title.rendered)
+                      .attr("href", "/page.html?" + btoa(posts[i].id))
+                      .appendTo(postBold);
+                    $(postItem).appendTo(postList);
+                });
+                $(postList).show();
+                $(postList).appendTo(postElement);
+            });
+        });
+        </script>
+    </body>
+</html>

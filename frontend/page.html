@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; Charset=UTF-8">
+        <meta charset=UTF-8">
+        <title></title>
+    </head>
+    <body>
+        <h1></h1>
+
+        <div id="article"></div>
+        <script type="application/javascript" src="/js/jquery-3.4.1.min.js"></script>
+        <script type="application/javascript">
+        $(function () {
+            var backendUri = "https://in2it-wp-api.azure-api.net/api"
+            var postId = document.location.search;
+            postId = postId.substr(1);
+            post = atob(postId);
+            $.getJSON(backendUri + "/wp/v2/posts/" + post, function (data) {
+              $("title").html(data.title.rendered);
+              $("h1").html(data.title.rendered);
+              $("#article").html(data.content.rendered);
+            });
+        });
+        </script>
+    </body>
+</html>
